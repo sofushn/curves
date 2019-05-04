@@ -11,8 +11,8 @@ export class Game
         this.MapContext.lineCap = "round";
     }
 
-    IsColidedWithWall(player: Player): boolean {
-        let newestPoint = player.Line[player.Line.length - 1];
+    IsColidingWithWall(player: Player): boolean {
+        let newestPoint = player.LatestMove.B;
         if(newestPoint[0] < 0 || newestPoint[1] < 0 || newestPoint[0] > this.Map.width || newestPoint[1] > this.Map.height)
             return true;
         else
@@ -26,7 +26,7 @@ export class Game
         this.Player = new Player(mapcenter, mapcenter);
         
         // move player to center of map when game starts
-        let playerPosition: [number, number] = this.Player.Line[this.Player.Line.length -1];
+        let playerPosition: [number, number] = this.Player.LatestMove.B;
         this.MapContext.moveTo(playerPosition[0], playerPosition[1]);
 
         // game clock runs at 60 ticks per second
@@ -36,7 +36,7 @@ export class Game
             this.RenderPlayer(newPostion);
 
             // end game if player is coliding with wall 
-            if(this.IsColidedWithWall(this.Player))
+            if(this.IsColidingWithWall(this.Player))
             {
                 clearInterval(intervalId);
                 this.EndGame();

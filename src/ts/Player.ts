@@ -1,6 +1,10 @@
+import { Vector } from './Vector'
 export class Player 
 {
-    Line: [number, number][] = [];
+    //Line: [number, number][] = [];
+    Line: Path2D;
+    LatestMove: Vector;
+
     PressingRight: boolean = false;
     PressingLeft: boolean = false;
     
@@ -10,8 +14,7 @@ export class Player
 
     constructor(x: number, y: number){
         // Add start position to line
-        this.Line.push([x,y]);
-        this.Line.push([x + this.Speed, y + this.Speed])
+        this.LatestMove = new Vector([x,y], [x + this.Speed, y + this.Speed])
     }
 
     UpdatePosition(): [number, number] 
@@ -27,8 +30,8 @@ export class Player
             turnAngle = this.TurnSpeed* Math.PI / 180
         
         // get previous 2 points
-        let pointA = this.Line[this.Line.length - 1];
-        let pointB = this.Line[this.Line.length - 2];
+        let pointA = this.LatestMove.B;
+        let pointB = this.LatestMove.A;
 
         // find the vector from last two points  
         let vectorX: number = pointA[0] - pointB[0];
@@ -45,7 +48,7 @@ export class Player
         let newPosition: [number, number] = [new_x, new_y];
 
         //adds new position to line and return it
-        this.Line.push(newPosition);
+        this.LatestMove.UpdateVector(newPosition);
         return newPosition;
     }
 }
