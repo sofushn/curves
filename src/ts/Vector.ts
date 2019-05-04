@@ -10,10 +10,10 @@ export class Vector {
     UpdateVector(A: [number, number]): void
     UpdateVector(x: number, y: number): void
     UpdateVector(anyOptional: any, optional?: number): void{
-        this.B = this.A
+        this.A = this.B
         if(anyOptional instanceof Array) {
-            this.A = <[number, number]>anyOptional
+            this.B = <[number, number]>anyOptional
         }
-        else this.A = [anyOptional, optional]
+        else this.B = [anyOptional, optional]
     }
 }
