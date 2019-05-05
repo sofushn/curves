@@ -18,6 +18,9 @@ export class Game
         else
             return false;
     }
+    IsColidingWithPlayer(player: Player): boolean {
+        return this.MapContext.isPointInStroke(player.Line, player.LatestMove.B[0], player.LatestMove.B[1])
+    }
 
     StartGame(): void
     {
@@ -36,7 +39,7 @@ export class Game
             this.RenderPlayer(newPostion);
 
             // end game if player is coliding with wall 
-            if(this.IsColidingWithWall(this.Player))
+            if(this.IsColidingWithPlayer(this.Player) || this.IsColidingWithWall(this.Player))
             {
                 clearInterval(intervalId);
                 this.EndGame();

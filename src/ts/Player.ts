@@ -1,7 +1,8 @@
 import { Vector } from './Vector'
 export class Player 
 {
-    //Line: [number, number][] = [];
+    private movesInsideHead: [number, number][] = []
+
     Line: Path2D;
     LatestMove: Vector;
 
@@ -13,7 +14,9 @@ export class Player
     LineWidth: number = 8;
 
     constructor(x: number, y: number){
+        this.Line = new Path2D()
         // Add start position to line
+        this.Line.moveTo(x,y)
         this.LatestMove = new Vector([x,y], [x + this.Speed, y + this.Speed])
     }
 
@@ -47,8 +50,19 @@ export class Player
         
         let newPosition: [number, number] = [new_x, new_y];
 
-        //adds new position to line and return it
+        this.UpdatePointsInHead(newPosition)
+        //update Latest move and return new position
         this.LatestMove.UpdateVector(newPosition);
         return newPosition;
+    }
+
+    private UpdatePointsInHead(point: [number, number]) {
+        this.movesInsideHead.push(point)
+        if(this.movesInsideHead.length > 3) {
+            let notHeadPoint: [number, number] = this.movesInsideHead.shift()            
+            //add newest position not inside head to path
+            this.Line.lineTo(notHeadPoint[0], notHeadPoint[1])
+            
+        }
     }
 }
